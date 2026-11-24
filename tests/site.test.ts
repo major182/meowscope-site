@@ -65,3 +65,48 @@ for (const { path, html } of pages) {
     assert.deepEqual(broken, [], "切れているリンク");
   });
 }
+
+/** 要件定義書 2章のページ（F-PG-01〜09）。出来上がりのファイルの場所 */
+const requiredPages = [
+  "index.html",
+  "about/index.html",
+  "contact/index.html",
+  "404.html",
+  "apps/meowscope/index.html",
+  "apps/meowscope/privacy/index.html",
+  "apps/meowscope/terms/index.html",
+  "apps/meowscope/account-deletion/index.html",
+  "apps/meowscope/support/index.html",
+];
+
+test("UT-06 要件定義書 2章のページがすべてある（F-PG-01〜09）", () => {
+  const missing = requiredPages.filter((p) => !existsSync(join(dist, p)));
+  assert.deepEqual(missing, [], "ないページ");
+});
+
+for (const { path, html } of pages) {
+  test(`UT-07 ${path}：共通の上部と下部のリンクがある（F-NV-01）`, () => {
+    for (const href of ["/", "/about/", "/contact/"]) {
+      assert.ok(html.includes(`href="${href}"`), `${href} へのリンクがない`);
+    }
+  });
+}
+
+/** アプリのページどうしのリンク（apps.ts の appPages と同じ並び） */
+const meowscopeLinks = [
+  "/apps/meowscope/",
+  "/apps/meowscope/support/",
+  "/apps/meowscope/privacy/",
+  "/apps/meowscope/terms/",
+  "/apps/meowscope/account-deletion/",
+];
+
+for (const { path, html } of pages.filter((p) =>
+  p.path.replaceAll("\\", "/").startsWith(`${dist}/apps/meowscope/`),
+)) {
+  test(`UT-08 ${path}：アプリのページどうしのリンクがある（F-NV-01）`, () => {
+    for (const href of meowscopeLinks) {
+      assert.ok(html.includes(`href="${href}"`), `${href} へのリンクがない`);
+    }
+  });
+}

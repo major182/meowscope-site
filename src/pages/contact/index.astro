@@ -1,0 +1,27 @@
+---
+// 事業の連絡（要件 F-PG-03）。アプリの問い合わせは各アプリのページへ案内する（要件 BR-02）
+import Base from "../../layouts/Base.astro";
+import { apps, contactEmail } from "../../data/apps";
+---
+
+<Base title="事業の連絡" description="MeowScope への事業のご連絡先です。">
+  <h1>事業の連絡</h1>
+  <p>
+    お仕事のご相談など、事業についてのご連絡は、次のメールアドレスへお送りください。
+  </p>
+  <p>
+    <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+  </p>
+
+  <h2>アプリについてのお問い合わせ</h2>
+  <p>
+    アプリの使い方や不具合のお問い合わせは、各アプリのサポートのページから受け付けています。
+  </p>
+  <ul>
+    {apps.map((app) => (
+      <li>
+        <a href={`/apps/${app.slug}/support/`}>{app.name} のサポート</a>
+      </li>
+    ))}
+  </ul>
+</Base>

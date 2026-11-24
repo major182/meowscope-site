@@ -1,0 +1,35 @@
+---
+// 運営者の情報（要件 F-PG-02）。載せる範囲は要件 Q-01（今は活動名とメールアドレスだけ）
+import Base from "../../layouts/Base.astro";
+import { contactEmail } from "../../data/apps";
+---
+
+<Base title="運営者の情報" description="MeowScope の運営者の情報です。">
+  <h1>運営者の情報</h1>
+  <table>
+    <tbody>
+      <tr>
+        <th scope="row">運営の名前</th>
+        <td>MeowScope</td>
+      </tr>
+      <tr>
+        <th scope="row">運営者</th>
+        <td>major182</td>
+      </tr>
+      <tr>
+        <th scope="row">活動の内容</th>
+        <td>スマートフォンとパソコンのアプリの開発と提供</td>
+      </tr>
+      <tr>
+        <th scope="row">連絡先</th>
+        <td>
+          <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p>運営者の氏名と住所は、ご請求があれば遅滞なく開示します。</p>
+  <p>
+    アプリについてのお問い合わせは、各アプリのサポートのページをご覧ください。
+  </p>
+</Base>

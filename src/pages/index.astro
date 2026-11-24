@@ -1,15 +1,54 @@
 ---
-// トップ（要件 F-PG-01）。中身はページを作るときに書く。ここでは土台が動くことだけを確かめる
+// トップ（要件 F-PG-01）：事業の一言の紹介と、アプリの一覧
+import Base from "../layouts/Base.astro";
+import { apps } from "../data/apps";
 ---
 
-<html lang="ja">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>MeowScope</title>
-  </head>
-  <body>
-    <h1>MeowScope</h1>
-    <p>準備中です。</p>
-  </body>
-</html>
+<Base
+  title="MeowScope"
+  description="MeowScope は、暮らしを少し楽にする小さなアプリを作っています。"
+>
+  <h1>MeowScope</h1>
+  <p>暮らしを少し楽にする、小さなアプリを作っています。</p>
+
+  <h2>アプリ</h2>
+  <ul class="apps">
+    {apps.map((app) => (
+      <li>
+        <a href={`/apps/${app.slug}/`}>
+          <img src={app.icon} alt="" width="64" height="64" />
+          <span>
+            <strong>{app.name}</strong>
+            <br />
+            {app.summary}
+          </span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</Base>
+
+<style>
+  .apps {
+    list-style: none;
+    padding: 0;
+  }
+  .apps a {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+  }
+  .apps img {
+    flex: none;
+    border-radius: 14px;
+  }
+  .apps strong {
+    color: var(--accent);
+  }
+</style>
