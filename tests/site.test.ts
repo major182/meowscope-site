@@ -110,3 +110,24 @@ for (const { path, html } of pages.filter((p) =>
     }
   });
 }
+
+/** dist の中のファイルの場所から、そのページの URL を作る（例：dist/about/index.html → /about/） */
+function urlOf(file: string): string {
+  const rel = file.replaceAll("\\", "/").slice(dist.length);
+  return rel.replace(/index\.html$/, "");
+}
+
+for (const { path, html } of pages) {
+  const isNotFound = path.replaceAll("\\", "/") === `${dist}/404.html`;
+  test(`UT-09 ${path}：正規の URL が正しい（404 は出さずに noindex）`, () => {
+    const canonical = html.match(/<link rel="canonical" href="([^"]*)"/)?.[1];
+    if (isNotFound) {
+      // 404 のページはどの URL でも返るので、正規の URL を出さず、検索に載せない
+      assert.equal(canonical, undefined);
+      assert.match(html, /<meta name="robots" content="noindex"/);
+    } else {
+      assert.equal(canonical, `https://meowscope.dev${urlOf(path)}`);
+      assert.doesNotMatch(html, /noindex/);
+    }
+  });
+}
