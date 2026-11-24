@@ -1,0 +1,13 @@
+# 秘密のファイル（このサイトでは使わないが、誤って入れないよう念のため除く）
+.env
+.env.*
+
+# OS・エディタ
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# 言語・ツールの生成物は、技術を入れたときにここに足す
