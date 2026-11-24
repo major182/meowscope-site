@@ -1,0 +1,81 @@
+---
+// アプリのページの外枠。共通の外枠に、そのアプリのページどうしのリンクを足す（要件 F-NV-01）
+// Markdown のページ（プライバシーポリシーなど）からも使えるよう、frontmatter からも題名を受け取る
+import Base from "./Base.astro";
+import { appPages, apps } from "../data/apps";
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** アプリの URL の名前（apps.ts の slug） */
+  app?: string;
+  frontmatter?: { title: string; description: string; app: string };
+}
+
+const props = Astro.props;
+const title = props.title ?? props.frontmatter?.title ?? "";
+const description = props.description ?? props.frontmatter?.description ?? "";
+const slug = props.app ?? props.frontmatter?.app ?? "";
+const app = apps.find((a) => a.slug === slug);
+if (!app) {
+  // アプリの名前の書き間違いは、組み立てのときに止める
+  throw new Error(`apps.ts にないアプリです：${slug}`);
+}
+const base = `/apps/${app.slug}/`;
+---
+
+<Base title={`${title}（${app.name}）`} description={description}>
+  <nav class="app-nav" aria-label={`${app.name} のページ`}>
+    <a class="app-name" href={base}>
+      <img src={app.icon} alt="" width="32" height="32" />
+      {app.name}
+    </a>
+    <ul>
+      {appPages.map((p) => (
+        <li>
+          <a
+            href={base + p.path}
+            aria-current={
+              Astro.url.pathname === base + p.path ? "page" : undefined
+            }
+          >
+            {p.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+  <h1>{title}</h1>
+  <slot />
+</Base>
+
+<style>
+  .app-nav {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+  }
+  .app-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  .app-name img {
+    border-radius: 8px;
+  }
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 0;
+    font-size: 0.95rem;
+  }
+  a[aria-current="page"] {
+    color: var(--text);
+    font-weight: bold;
+    text-decoration: none;
+  }
+</style>
