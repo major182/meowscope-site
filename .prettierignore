@@ -1,0 +1,7 @@
+# 生成物と依存
+dist/
+.astro/
+node_modules/
+package-lock.json
+# 文書は表の書き方を崩さないよう、整形の対象にしない
+*.md

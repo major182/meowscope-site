@@ -1,0 +1,28 @@
+{
+  "name": "meowscope-site",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=26.13.1"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "astro check",
+    "test": "node --test tests/",
+    "check": "npm run format:check && npm run typecheck && npm run build && npm run test"
+  },
+  "dependencies": {
+    "astro": "7.4.13"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.12",
+    "@types/node": "26.6.6",
+    "prettier": "3.10.1",
+    "prettier-plugin-astro": "1.1.2",
+    "typescript": "6.0.3"
+  }
+}

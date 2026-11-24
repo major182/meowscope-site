@@ -11,3 +11,8 @@ Thumbs.db
 !.vscode/extensions.json
 
 # 言語・ツールの生成物は、技術を入れたときにここに足す
+# Astro と Node.js の生成物
+dist/
+.astro/
+node_modules/
+npm-debug.log*

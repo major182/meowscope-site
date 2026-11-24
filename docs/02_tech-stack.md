@@ -3,7 +3,7 @@
 | 項目 | 内容 |
 |---|---|
 | 文書番号 | 02 |
-| 版数 | 0.2 |
+| 版数 | 0.3 |
 | 作成日 | 2026-11-24 |
 | 作成者 | major182 |
 | 前提となる文書 | [01 要件定義書](01_requirements.md) |
@@ -33,7 +33,13 @@
 | 公開 | GitHub Pages | - | 無料で独自ドメインと HTTPS を使える。GitHub Actions で組み立てて出せる | Cloudflare Pages：同じく無料だが、GitHub の中で完結する方を選んだ（利用者の決定） |
 | ドメインと DNS | Cloudflare | - | `meowscope.dev` を取得した場所。DNS も Cloudflare で管理する（C-01） | |
 
-整形・リンク切れの確かめなどの道具は、CI を作るときに決めて、この表に足す。
+| 整形 | Prettier、prettier-plugin-astro | 3.10.1、1.1.2 | 書き方の揺れを機械で直す。Astro の部品も整形できる | |
+| 型の確かめ | @astrojs/check、TypeScript | 0.9.12、6.0.3 | Astro の部品とテストのコードの型を確かめる（`astro check`） | TypeScript 7.0.2：@astrojs/check 0.9.12 が 5・6 にしか対応していない |
+| Node.js の型の定義 | @types/node | 26.6.6 | テストのコードで Node.js の標準の機能を使うため。Node.js の版にそろえる | |
+| テスト | Node.js の標準のテストの仕組み（node:test） | Node.js に同梱 | 出来上がりの HTML とサイトの中のリンクを確かめる。追加の道具が要らない | linkinator 8.1.0（リンク切れの確かめ）：使う部品 minimatch に脆弱性（GHSA-g3hv-75wg-m249）があり、直った版に上げられない。外のリンクはもともと確かめないので、サイトの中のリンクをテストで確かめれば足りる |
+| CI | GitHub Actions | - | PR と main へのプッシュのたびに `npm run check` を動かす | |
+
+どの道具も、版を固定して入れる（`package.json` に `^` を付けない）。
 
 ## 4. 主な設計判断
 
@@ -52,3 +58,4 @@
 |---|---|---|
 | 0.1 | 2026-11-24 | 初版 |
 | 0.2 | 2026-11-24 | Astro・Node.js・GitHub Pages・Cloudflare を選んだ理由を書く（#1） |
+| 0.3 | 2026-11-24 | 整形・型・テスト・CI の道具を追加（#3） |
